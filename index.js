@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const PORT = process.env.PORT || 3000;
 
 const {Client} = require('pg')
 const client = new Client({
@@ -31,6 +32,6 @@ app.use('/', (req, res, next) => {
 	res.render('index.pug', { name: output.rows[0].carriername, id: output.rows[0].carrierid});
 });
 
-app.listen(8080, () => {
-	console.log('app listening on 8080');
+app.listen(PORT, () => {
+	console.log('app listening on PORT');
 });
