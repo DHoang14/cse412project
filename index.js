@@ -1,8 +1,36 @@
-const app = require("express")();
-const PORT = process.env.PORT || 3000;
-app.get("", (req, res) => {
-	res.send("Hello world");
+const express = require('express');
+const app = express();
+const PORT= process.env.PORT || 3000;
+const {Client} = require('pg');
+const client = new Client({
+	host: "cse412project.coe06igosmnw.us-east-2.rds.amazonaws.com", 
+	user: "postgres", 
+	port: 5432, 
+	password: "cse412project", 
+	database: "cse412projectdatabase"
 });
-app.listen(PORT, ()=> {
-	console.log('App up at port ${PORT}');
+
+client.connect();
+
+let output;
+const setOutput = (rows) => {
+	output = rows;
+}
+
+let query = 'Select carriername, carrierid from Carrier';
+client.query (query, (err, rows) => {
+	if (err) {
+		console.log("error");
+		return;
+	}
+	setOutput(rows);
+});
+
+
+app.use('/', (req, res, next) => {
+	res.render('index.pug', { name: output.rows[0].carriername, age: output.rows[0].carrierid});
+});
+
+app.listen(PORT, () => {
+	console.log('app listening on http://localhost:${PORT}');
 });
