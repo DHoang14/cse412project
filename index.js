@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-
+const port = process.env.PORT || 3000
 const {Client} = require('pg')
 const client = new Client({
 	host: "cse412project.coe06igosmnw.us-east-2.rds.amazonaws.com", 
@@ -31,6 +31,6 @@ app.use('/', (req, res, next) => {
 	res.render('index.pug', { name: output.rows[0].carriername, age: output.rows[0].carrierid});
 });
 
-app.listen(8080, () => {
-	console.log('app listening on 8080');
+app.listen(port, () => {
+	console.log('app listening on port');
 });
