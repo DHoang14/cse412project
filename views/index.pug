@@ -1,7 +1,80 @@
 doctype html
-html(lang="en")
- head
-  title= 'Node.js Template'
- body
-  h1 My name is #{name}
-  p I am #{age} years old
+head
+  meta(charset='utf-8')
+  title 412 Project
+  style(type='text/css').
+    body {
+    width: 90%;
+    margin: 0 auto;
+    background-color: rgb(185,179,175);
+    }
+    #content {
+    overflow: auto;
+    }
+    #nav, #feature, #footer {
+    margin: 1%;
+    }
+    .column1, .column2, .column3{
+    line-height: 0.8;
+    border-style: ridge;
+    text-align: center;
+    float: left;
+    margin: 0 1.5%;
+    width: 30%;
+    }
+    .column3 {
+    margin-right: 0%;
+    }
+    li{
+    display: inline;
+    padding: 0.5em;
+    }
+    #nav, #footer {
+    border-style: ridge;
+    justify-content: center;
+    text-align: center;
+    background-color: #efefef;
+    padding: 0.5em 0;
+    }
+    #feature, .article {
+    line-height: 0.8;
+    border-style: ridge;
+    height: 20em;
+    margin-bottom: 1em;
+    background-color: #efefef;
+    }
+    h1{
+    font-family: Times, Times New Roman, serif;
+    justify-content: center;
+    text-align: center;
+    letter-spacing: 0.3em;
+    color: rgb(255,255,255);}
+    .credits {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 12px;
+    }
+    a:hover{
+    color: purple;
+    }
+  // font-weight: bold word-spacing: lem
+#header
+  h1 CSE 412 Project-Cell It To Me
+#nav
+  ul
+    li
+      a(href='https://cse412project.github.io/cell-it-to-me/') Home 
+#content
+  #feature
+    p.credits  K. Markley 
+    p.credits  D. Hoang 
+    p  testing carrier id is #{id} 
+    p  testing carrier name is #{name}
+  .article.column1
+    p
+    p
+  .article.column2
+    p
+  .article.column3
+    p
+#footer
+  p &copy; Last updated 11/16/2021 

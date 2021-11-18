@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
-const PORT= process.env.PORT || 3000;
-const {Client} = require('pg');
+
+const {Client} = require('pg')
 const client = new Client({
 	host: "cse412project.coe06igosmnw.us-east-2.rds.amazonaws.com", 
 	user: "postgres", 
@@ -28,9 +28,9 @@ client.query (query, (err, rows) => {
 
 
 app.use('/', (req, res, next) => {
-	res.render('index.pug', { name: output.rows[0].carriername, age: output.rows[0].carrierid});
+	res.render('index.pug', { name: output.rows[0].carriername, id: output.rows[0].carrierid});
 });
 
-app.listen(PORT, () => {
-	console.log('app listening on http://localhost:${PORT}');
+app.listen(8080, () => {
+	console.log('app listening on 8080');
 });
