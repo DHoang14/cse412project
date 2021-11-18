@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "engines": {
-     "node":"16.13"
+     "node":"16.x"
   },
   "dependencies": {
     "express": "^4.17.1",
