@@ -84,27 +84,20 @@ head
 #content
   #feature
     
-    //p  testing carrier id is #{id} 
-    //p  testing carrier name is #{name}
-    //p  testing is #{buttonclick}
+   
     p
     
     table(style='width:100%', border='1')
       tr
-        th id
         th name
-      for row in carrier
+        th id
+      for row in result
         tr
             td= row
 
-  .article.column1
-    p
-    p
-  .article.column2
-    p
-  .article.column3
-    p
+  
 #footer
   p &copy; Last updated 11/16/2021 
   p.credits  K. Markley 
-  p.credits  D. Hoang
+  p.credits  D. Hoang 
+
