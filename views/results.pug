@@ -38,12 +38,30 @@ head
     background-color: #efefef;
     padding: 0.5em 0;
     }
-    #feature, .article {
+    #feature{
     line-height: 0.8;
     border-style: ridge;
     height: 20em;
     margin-bottom: 1em;
     background-color: #efefef;
+    }
+    #articleList {
+    padding-inline-start: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-gap: 20px;
+    }
+    .article {
+    list-style-type: none;
+    line-height: 0.8;
+    border-style: ridge;
+    margin-bottom: 1em;
+    background-color: #efefef;
+    border-radius: 3px;
+    padding: 10px 20px;
+    display: grid;
+    grid-template: 50px 50px/auto auto auto;
+    text-align: left;
     }
     h1{
     font-family: Times, Times New Roman, serif;
@@ -82,19 +100,13 @@ head
     li
       a(href='/home') Home 
 #content
-  #feature
+    //#feature
     
    
-    p
+    ul#articleList
+      for row in results
+       li.article=row 
     
-    table(style='width:100%', border='1')
-      tr
-        th name
-        th id
-      for row in result
-        tr
-            td= row
-
   
 #footer
   p &copy; Last updated 11/16/2021 

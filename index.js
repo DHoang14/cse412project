@@ -23,7 +23,7 @@ const setOutput = (rows) => {
 var carrier = [];
 
 //example of a query and passing in an array to index.pug
-let query = 'Select carriername, carrierid from Carrier';
+let query = 'Select model from phone';
 client.query (query, (err, rows) => {
 	if (err) {
 		console.log("error");
@@ -33,7 +33,7 @@ client.query (query, (err, rows) => {
 	
 	
 	for (var i = 0; i < output.rows.length; i++) {
-		carrier.push(output.rows[i].carriername);
+		carrier.push(output.rows[i].model);
 	}
 });
 
@@ -45,8 +45,8 @@ app.get('/home', (req, res) => {
 //search results
 app.get('/search', function(req, res, next) {
 	var searchstring = req.query.searchBar;
-	query = "Select carrierName FROM Carrier WHERE carrierName = '" + searchstring + "'";
-	var results =[]
+	query = "SELECT model from Phone WHERE model LIKE '%" + searchstring + "%'";
+	let results =[];
 	
 	client.query (query, (err, rows) => {
 		if (err) {
@@ -55,10 +55,12 @@ app.get('/search', function(req, res, next) {
 		}
 		
 		for (var i = 0; i <rows.rows.length; i++) {
-			results.push(rows.rows[i].carriername);
+			results.push(rows.rows[i].model);
 		}
 		
-		res.render('results.pug', {result: results});
+		//console.log(rows.rows);
+//		console.log(results);
+		res.render('results.pug', {results: results});
 	})
 	
 });
@@ -66,8 +68,8 @@ app.get('/search', function(req, res, next) {
 
 //example of passing in a function to index.pug
 const buttonclick =  () =>{
-	console.log('clicked');
-	console.log();
+//	console.log('clicked');
+	//console.log();
 	return 1;
 }
 
