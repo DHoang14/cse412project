@@ -38,7 +38,7 @@ head
     background-color: #e6e6e6;
     padding: 0.5em 0;
     }
-    #feature, .article{
+    #feature, .article {
     line-height: 0.8;
     border-style: none;
     height: 20em;
@@ -58,35 +58,15 @@ head
     a:hover{
     color: purple;
     }
-
-
-    #rowvalue {
-    display: none;
-    }
-    #resultList {
-    padding-inline-start: 20;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    grid-gap: 10px;
-    }
-    .result {
-    list-style-type: none;
+   
+    #info {
     line-height: 0.8;
-    border-style: none;
+    border-style: ridge;
+    height: auto;
     margin-bottom: 1em;
-    background-color: #e6e6e6;
-    border-radius: 3px;
-    padding: 40px 0px 0px 30px;
-    display: grid;
-    grid-template: 30px 30px /auto auto auto auto auto;
-    text-align: center;
-    height: 60px;
-    width: 300px;
+    background-color: #efefef;
     }
-    #read {
-        float: right;
-    }
-    //page specific css 
+    //page specific css
   // font-weight: bold word-spacing: lem
 #header
   h1 CSE 412 Project-Cell It To Me
@@ -98,26 +78,66 @@ head
     
         button#bn(type="submit") Submit
     
-
 #nav
   ul
     li
       a(href='/home') Home 
 #content
+  #info
+
+    p Phone specifications:
    
-    ul#resultList
-      for row in results
-       li.result=row 
-        form(action="/show", method="get")
-            div(class="input")
-                input#rowvalue(type='text' name='rowvalue' value=row)
+    -var index = 0;
+    for row in phoneInfo
+      if (index == 0) 
+        p Model:
+      else if (index == 1)
+        p Brand:
+      else if (index == 2)
+        p OS:
+      else if (index == 3)
+        p Battery Life:
+      else if (index == 4)
+        p Screen Resolution:
+      else if (index == 5)
+        p Dimensions:
+      p=row
+      -index = index + 1;
 
-            button#read(type="submit") Read more
+    p Available Colors:
+    if (colors.length)
+        for row in colors
+            p=row
+    else 
+        p None recorded
 
-            
-                
+    p Carriers Available:
+    if (carriers.length)
+        for row in carriers
+            p=row
+    else
+        p None available
+
+    -index = 0
+    p Sold At:
+    if (storeInfo.length)
+        for row in storeInfo
+            if (index == 0)
+                p Website Name:
+            else if (index == 1)
+                p Storage Space Offered:
+            else if (index == 2)
+                p Price:
+                -index = -1;
+            p=row
+            -index = index + 1;
+
+    else
+        p No Recorded Stores
+
+    
+   
 #footer
   p &copy; Last updated 11/27/2021 
   p.credits  K. Markley 
-  p.credits  D. Hoang 
-
+  p.credits  D. Hoang

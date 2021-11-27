@@ -65,7 +65,71 @@ app.get('/search', function(req, res, next) {
 	
 });
 
+app.get('/show', function(req, res, next) {
+	let modelName = req.query.rowvalue;
+	let phoneInfo = [];
+	let carriers = [];
+	let storeInfo = [];
+	let colors = [];
+	query = "SELECT P.model, P.brand, P.OS, P.batteryLife, P.screenRes, P.dimensions FROM Phone P WHERE P.model LIKE '%" + modelName + "%'";
+	client.query (query, (err, rows) => {
+		if (err) {
+			console.log("error");
+			return;
+		}	
 
+		if (rows.rows != []) {
+			phoneInfo.push(rows.rows[0].model);
+			phoneInfo.push(rows.rows[0].brand);
+			phoneInfo.push(rows.rows[0].os);
+			phoneInfo.push(rows.rows[0].batterylife);
+			phoneInfo.push(rows.rows[0].screenres);
+			phoneInfo.push(rows.rows[0].dimensions);
+			
+		}
+		query = "SELECT C.carrierName FROM Phone P, Carrier C, CelluarService S WHERE P.model LIKE '%" + modelName + "%' AND P.model = S.model AND S.carrierID = C.carrierID";
+		client.query (query, (err, rows) => {
+			if (err) {
+				console.log("error");
+				return;
+			}
+			if (rows.rows != []) {
+				for (var i = 0; i <rows.rows.length; i++) {
+					carriers.push(rows.rows[i].carriername);
+				}
+			}
+			query = "SELECT S.price, S.storageSpace, E.websiteName FROM Phone P, Sells S, StoreEntry E WHERE P.model LIKE '%" + modelName + "%' AND S.model = P.model AND S.storeID = E.storeID";
+			client.query (query, (err, rows) => {
+				if (err) {
+					console.log("error");
+					return;
+				}
+
+				if (rows.rows != []) {
+					for (var i = 0; i <rows.rows.length; i++) {
+						storeInfo.push(rows.rows[i].websitename);
+						storeInfo.push(rows.rows[i].storagespace);
+						storeInfo.push(rows.rows[i].price);
+					}
+				}
+				query = "SELECT F.color FROM Phone P, Features F WHERE P.model LIKE '%" + modelName + "%' AND P.model = F.model";
+				client.query (query, (err, rows) => {
+					if (err) {
+						console.log("error");
+						return;
+					}
+
+					if (rows.rows != []){ 
+						for (var i = 0; i <rows.rows.length; i++) {
+							colors.push(rows.rows[i].color);
+						}
+					}
+					res.render('show.pug', {phoneInfo: phoneInfo, carriers: carriers, storeInfo: storeInfo, colors:colors});
+				})
+			})
+		})
+	})
+})
 //example of passing in a function to index.pug
 const buttonclick =  () =>{
 //	console.log('clicked');
