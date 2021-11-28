@@ -57,7 +57,7 @@ head
     font-size: 12px;
     }
      #search{
-    display: inline-block;
+    display: inline;
     }
     a:hover{
     color: purple;
@@ -69,8 +69,8 @@ head
   #search 
     form(action="/search", method="get")
         div(class="input")
-            input#searchBar(type='text' name='searchBar' placeholder='Search...')
-        button#bn(type="submit") Submit
+            input#searchBar(type='text' name='searchBar' placeholder='Search Phones...')
+            button#bn(type="submit") Submit
     
     //script.
       //  function myfunc() {
