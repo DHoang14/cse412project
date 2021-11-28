@@ -75,17 +75,22 @@ head
 #header
   img(src='https://raw.githubusercontent.com/DHoang14/cse412project/main/views/CellItToMe.png' align='middle' style='width:1300px; height:200px;')
   h1 Need a phone? Compare phone prices and plans amongst different stores, before you buy.
-  #search
-    form(action="/search", method="get")
-        div(class="input")
-            input#searchBar(type='text' name='searchBar' placeholder='Search Phones...')
-            button#bn(type="submit") Submit
-    
+
 #nav
   ul
     li
       a(href='/home') Home
-      a(href='/watch') Watch List
+    li 
+        a(href='/watch') Watch List
+    li 
+        a(href='/dataplans') Carrier Data Plans
+    li
+        #search
+            form(action="/search", method="get")
+                div(class="input")
+                    input#searchBar(type='text' name='searchBar' placeholder='Search Phones...')
+                    button#bn(type="submit") Go
+
 #content
   #info
 

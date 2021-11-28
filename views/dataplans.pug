@@ -38,7 +38,7 @@ head
     background-color: #e6e6e6;
     padding: 0.5em 0;
     }
-    #feature, .article{
+    #feature, .article {
     line-height: 0.8;
     border-style: none;
     height: 20em;
@@ -59,40 +59,30 @@ head
     a:hover{
     color: purple;
     }
-
-
+   
     #rowvalue {
     display: none;
     }
-    #resultList {
-    padding-inline-start: 20;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    grid-gap: 10px;
-    }
-    .result {
-    list-style-type: none;
+    #info {
     line-height: 0.8;
     border-style: none;
+    height: auto;
     margin-bottom: 1em;
-    background-color: #e6e6e6;
-    border-radius: 3px;
-    padding: 40px 0px 0px 30px;
-    display: grid;
-    grid-template: 30px 30px /auto auto auto auto auto;
+    background-color: #efefef;
+    }
+    #search {
+    float: right;
+    }
+    #center {
     text-align: center;
-    height: 60px;
-    width: 300px;
     }
-    #read {
-        float: right;
-    }
-    //page specific css 
+    //page specific css
   // font-weight: bold word-spacing: lem
 #header
   img(src='https://raw.githubusercontent.com/DHoang14/cse412project/main/views/CellItToMe.png' align='middle' style='width:1300px; height:200px;')
-  h1  Need a phone? Compare phone prices and plans amongst different stores, before you buy.
-
+  h1 Need a phone? Compare phone prices and plans amongst different stores, before you buy.
+  
+    
 #nav
   ul
     li
@@ -107,22 +97,33 @@ head
                 div(class="input")
                     input#searchBar(type='text' name='searchBar' placeholder='Search Phones...')
                     button#bn(type="submit") Go
-
 #content
-   
-    ul#resultList
-      for row in results
-       li.result=row 
-        form(action="/show", method="get")
-            div(class="input")
-                input#rowvalue(type='text' name='rowvalue' value=row)
+    
 
-            button#read(type="submit") Read more
-
+      
+      -for (var i = 0; i < carriers.length; i++)
+        -console.log(carriers[i]);
+        if(carriers[i][0] != 'None                ')
+            p#center=carriers[i][0]
+            br
+            br
+            table(style='width:100%', border='1')
+                tr
+                    th Carrier Plans
+                    th Data Limits
+                    th Monthly Price
+                    -let elementCount = 0;
+                    -for (var j = 1; j < carriers[i].length; j++)
+                        if (elementCount == 3)
+                            -elementCount = 0;
+                        if (elementCount == 0)
+                            tr
+                        td= carriers[i][j]
+                        -elementCount = elementCount+1;
+            br
+            br
             
-                
 #footer
-  p &copy; Last updated 11/28/2021 
+  p &copy; Last updated 11/27/2021 
   p.credits  K. Markley 
-  p.credits  D. Hoang 
-
+  p.credits  D. Hoang

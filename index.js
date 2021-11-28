@@ -200,7 +200,43 @@ app.get('/show', function(req, res, next) {
 	})
 })
 
+app.get('/dataplans', (req, res) => {
+	query = "SELECT carrierName FROM Carrier";
+	client.query (query, (err, rows) => {
+		if (err) {
+			console.log("error");
+			return;	
+		}	
+		let carriers = [];
 
+		for (var i = 0; i <rows.rows.length; i++) {
+			let carrier = [rows.rows[i].carriername];
+			carriers.push(carrier);
+		}
+
+		
+
+		query = "SELECT C.carrierName, P.dataLimit, P.monthlyPrice, P.planName FROM DataPlans P, Carrier C WHERE C.carrierID = P.carrierID";
+		client.query (query, (err, rows) => {
+			if (err) {
+				console.log("error");
+				return;	
+			}	
+
+			for (var i = 0; i <rows.rows.length; i++) {
+				for (var j = 0; j < carriers.length; j++) {
+					if (carriers[j][0] == rows.rows[i].carriername) {
+						carriers[j].push(rows.rows[i].planname);
+						carriers[j].push(rows.rows[i].datalimit);
+						carriers[j].push(rows.rows[i].monthlyprice);
+					}
+				}
+			}
+			
+			res.render('dataplans.pug', {carriers:carriers});
+		})
+	})
+})
 
 //example of passing in a function to index.pug
 const buttonclick =  () =>{
