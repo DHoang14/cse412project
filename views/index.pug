@@ -57,11 +57,7 @@ head
     font-size: 12px;
     }
      #search{
-    font: 16px system-ui;
-    color: #fff;
-    height: 100%;
-    width: 100%;
-    padding: 6px 10px;
+    display: inline-block;
     }
     a:hover{
     color: purple;
@@ -70,12 +66,10 @@ head
 #header
   img(src='https://raw.githubusercontent.com/DHoang14/cse412project/main/views/CellItToMe.png' align='middle' style='width:1300px; height:200px;')
   h1 Need a phone? Compare phone prices and plans amongst different stores, before you buy.
-  #search
-    
+  #search 
     form(action="/search", method="get")
         div(class="input")
             input#searchBar(type='text' name='searchBar' placeholder='Search...')
-    
         button#bn(type="submit") Submit
     
     //script.
