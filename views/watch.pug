@@ -74,6 +74,13 @@ head
     #rowvalue {
     display: none;
     }
+    #right {
+    display: inline-block;
+    float: right;
+    }
+    #center {
+    text-align: center;
+    }
     //page specific css
   // font-weight: bold word-spacing: lem
 #header
@@ -97,8 +104,8 @@ head
 #content
     #info 
         p NOTE: refresh to see any changes after deletion
-        p Watch List
-        p ----------
+        p#center Watch List
+        p#center ----------
 
        
         -var list = [];
@@ -118,12 +125,12 @@ head
                 
                 if (index == 2)
                     -index = -1;
-                    form(action="/remove", method="post")
-                        input#rowvalue(type='text' name='remove' value=JSON.stringify(list))
-                        button(type="submit") X
+                    li
+                        form(action="/remove", method="post")
+                            input#rowvalue(type='text' name='remove' value=JSON.stringify(list))
+                            button#right(type="submit") X
                     br
                     br
-                 
                     -list.pop();
                     -list.pop();
                     -list.pop();

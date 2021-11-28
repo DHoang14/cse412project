@@ -20,7 +20,7 @@ client.connect();
 
 //home tab
 app.get('/home', (req, res) => {
-	res.render('index.pug', { name: output.rows[0].carriername, id: output.rows[0].carrierid, carrier: carrier, buttonclick: buttonclick()} );
+	res.render('index.pug');
 })
 
 //watch list tab
@@ -225,7 +225,7 @@ app.get('/dataplans', (req, res) => {
 
 //initial home page
 app.use('/', (req, res, next) => {
-	res.render('index.pug', { name: output.rows[0].carriername, id: output.rows[0].carrierid, carrier: carrier} );
+	res.render('index.pug' );
 });
 
 
