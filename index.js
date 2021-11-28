@@ -5,6 +5,7 @@ app.set('view engine', 'pug')
 app.use(bodyParser.urlencoded({extended: true}));
 const PORT = process.env.PORT || 3000;
 
+//connect to database
 const {Client} = require('pg')
 const client = new Client({
 	host: "cse412project.coe06igosmnw.us-east-2.rds.amazonaws.com", 
@@ -16,34 +17,13 @@ const client = new Client({
 
 client.connect();
 
-let output;
-const setOutput = (rows) => {
-	output = rows;
-	
-}
-
-var carrier = [];
-
-//example of a query and passing in an array to index.pug
-let query = 'Select model from phone';
-client.query (query, (err, rows) => {
-	if (err) {
-		console.log("error");
-		return;
-	}
-	setOutput(rows);
-	
-	
-	for (var i = 0; i < output.rows.length; i++) {
-		carrier.push(output.rows[i].model);
-	}
-});
 
 //home tab
 app.get('/home', (req, res) => {
 	res.render('index.pug', { name: output.rows[0].carriername, id: output.rows[0].carrierid, carrier: carrier, buttonclick: buttonclick()} );
 })
 
+//watch list tab
 app.get('/watch', (req, res) => {
 	let results = [];
 	query = "SELECT W.model, C.carrierName, E.websiteName FROM WatchList W, Carrier C, StoreEntry E WHERE W.carrierID = C.carrierID AND W.storeID = E.storeID";
@@ -64,6 +44,7 @@ app.get('/watch', (req, res) => {
 	})
 })
 
+//add to watch list
 app.post('/add', (req, res) => {
 	query = "SELECT carrierID, storeID from Carrier, StoreEntry WHERE carrierName='" + req.body.cservices + "' AND websiteName='" + req.body.stores + "'";
 	client.query (query, (err, rows) => {
@@ -87,6 +68,7 @@ app.post('/add', (req, res) => {
 	})
 })
 
+//remove from watch list
 app.post('/remove', (req, res) => {
 	let data = JSON.parse(req.body.remove);
 	console.log(data);
@@ -111,6 +93,7 @@ app.post('/remove', (req, res) => {
 		})
 	})
 })
+
 //search results
 app.get('/search', function(req, res, next) {
 	var searchstring = req.query.searchBar;
@@ -134,6 +117,7 @@ app.get('/search', function(req, res, next) {
 	
 });
 
+//show more information about a phone
 app.get('/show', function(req, res, next) {
 	let modelName = req.query.rowvalue;
 	let phoneInfo = [];
@@ -200,6 +184,7 @@ app.get('/show', function(req, res, next) {
 	})
 })
 
+//show data plans for each carrier
 app.get('/dataplans', (req, res) => {
 	query = "SELECT carrierName FROM Carrier";
 	client.query (query, (err, rows) => {
@@ -238,20 +223,13 @@ app.get('/dataplans', (req, res) => {
 	})
 })
 
-//example of passing in a function to index.pug
-const buttonclick =  () =>{
-//	console.log('clicked');
-	//console.log();
-	return 1;
-}
-
 //initial home page
 app.use('/', (req, res, next) => {
-	res.render('index.pug', { name: output.rows[0].carriername, id: output.rows[0].carrierid, carrier: carrier, buttonclick: buttonclick()} );
+	res.render('index.pug', { name: output.rows[0].carriername, id: output.rows[0].carrierid, carrier: carrier} );
 });
 
 
 
 app.listen(PORT, () => {
-	console.log('app listening on PORT');
+	console.log('app listening on PORT 3000');
 });
