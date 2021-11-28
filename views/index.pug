@@ -62,9 +62,11 @@ head
     #search {
     float: right;
     }
+
     #center {
     text-align: center;
     }
+   //page specific css above
   // font-weight: bold word-spacing: lem
 #header
   img(src='https://raw.githubusercontent.com/DHoang14/cse412project/main/views/CellItToMe.png' align='middle' style='width:1300px; height:200px;')
@@ -91,16 +93,12 @@ head
     //p  testing carrier id is #{id} 
     //p  testing carrier name is #{name}
     //p  testing is #{buttonclick}
-    p
+    br
     
-    table(style='width:100%', border='1')
-      tr
-       
-        th name
-      for row in carrier
-        tr
-            td= row
-
+    p#center Welcome to Cell It To me!
+    p#center You can look for phones by using the search bar on the top right!
+    p#center You can add them and remove them from a watch list as needed!
+    p#center Or you can view different data plans for the phones in the carrier data plans tab!
   
 #footer
   p &copy; Last updated 11/28/2021 

@@ -62,10 +62,7 @@ head
     #search {
     float: right;
     }
-    #center {
-    text-align: center;
-    }
-   
+    
     #rowvalue {
     display: none;
     }
@@ -75,6 +72,9 @@ head
     height: auto;
     margin-bottom: 1em;
     background-color: #efefef;
+    padding: 10px 0px 1px 20px;
+    text-align: center;
+    width: auto;
     }
     //page specific css
   // font-weight: bold word-spacing: lem
@@ -103,62 +103,79 @@ head
     -var model;
     -let cservices = [];
     -let stores = [];
-
+    
     p Phone specifications:
    
     -var index = 0;
     for row in phoneInfo
+      ul
       if (index == 0) 
-        p Model:
+        li Model:
         -model = row;
       else if (index == 1)
-        p Brand:
+        li Brand:
       else if (index == 2)
-        p OS:
+        li OS:
       else if (index == 3)
-        p Battery Life:
+        li Battery Life:
       else if (index == 4)
-        p Screen Resolution:
+        li Screen Resolution:
       else if (index == 5)
-        p Dimensions:
-      p=row
+        li Dimensions:
+      li=row
       -index = index + 1;
-
+    br
+    br
     p Available Colors:
+    li |
     if (colors.length)
         for row in colors
-            p=row
+           li=row
+           li |
     else 
         p None recorded
-
+    br 
+    br
     p Carriers Available:
+    li |
     if (carriers.length)
         for row in carriers
-            p=row
+            li=row
+            li |
             -cservices.push(row);
     else
         p None available
         -cservices.push('None');
 
     -index = 0
+    br
+    br
     p Sold At:
     if (storeInfo.length)
         for row in storeInfo
             if (index == 0)
-                label Website Name:
+                ul
+                li Website Name:
                 -stores.push(row);
             else if (index == 1)
-                p Storage Space Offered:
+                ul
+                li Storage Space Offered:
             else if (index == 2)
-                p Price:
+                ul
+                li Price:
+                li $
+               
+            li=row
+            if (index == 2)
+                br
+                br
                 -index = -1;
-            p=row
             -index = index + 1;
-
     else
         p No Recorded Stores
         -stores.push('None');
-        
+    
+    br
     form(action='/add' method="post")
         p Add to Watch List:
         div(class="input")
@@ -172,7 +189,7 @@ head
             each store in stores
                 option=store
         input(type='submit', value='Submit')
-       
+    br  
 
 
 #footer
