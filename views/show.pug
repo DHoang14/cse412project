@@ -59,6 +59,9 @@ head
     color: purple;
     }
    
+    #rowvalue {
+    display: none;
+    }
     #info {
     line-height: 0.8;
     border-style: ridge;
@@ -81,9 +84,14 @@ head
 #nav
   ul
     li
-      a(href='/home') Home 
+      a(href='/home') Home
+      a(href='/watch') Watch List
 #content
   #info
+
+    -var model;
+    -let cservices = [];
+    -let stores = [];
 
     p Phone specifications:
    
@@ -91,6 +99,7 @@ head
     for row in phoneInfo
       if (index == 0) 
         p Model:
+        -model = row;
       else if (index == 1)
         p Brand:
       else if (index == 2)
@@ -115,15 +124,18 @@ head
     if (carriers.length)
         for row in carriers
             p=row
+            -cservices.push(row);
     else
         p None available
+        -cservices.push('None');
 
     -index = 0
     p Sold At:
     if (storeInfo.length)
         for row in storeInfo
             if (index == 0)
-                p Website Name:
+                label Website Name:
+                -stores.push(row);
             else if (index == 1)
                 p Storage Space Offered:
             else if (index == 2)
@@ -134,9 +146,24 @@ head
 
     else
         p No Recorded Stores
+        -stores.push('None');
+        
+    form(action='/add' method="post")
+        p Add to Watch List:
+        div(class="input")
+                input#rowvalue(type='text' name='model' value=model)
+        label Carrier:
+        select(name='cservices')
+            each service in cservices
+                option=service
+        label Store:
+        select(name='stores')
+            each store in stores
+                option=store
+        input(type='submit', value='Submit')
+       
 
-    
-   
+
 #footer
   p &copy; Last updated 11/27/2021 
   p.credits  K. Markley 

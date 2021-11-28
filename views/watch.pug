@@ -59,34 +59,17 @@ head
     color: purple;
     }
 
-
+    #info {
+    line-height: 0.8;
+    border-style: ridge;
+    height: auto;
+    margin-bottom: 1em;
+    background-color: #efefef;
+    }
     #rowvalue {
     display: none;
     }
-    #resultList {
-    padding-inline-start: 20;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    grid-gap: 10px;
-    }
-    .result {
-    list-style-type: none;
-    line-height: 0.8;
-    border-style: none;
-    margin-bottom: 1em;
-    background-color: #e6e6e6;
-    border-radius: 3px;
-    padding: 40px 0px 0px 30px;
-    display: grid;
-    grid-template: 30px 30px /auto auto auto auto auto;
-    text-align: center;
-    height: 60px;
-    width: 300px;
-    }
-    #read {
-        float: right;
-    }
-    //page specific css 
+    //page specific css
   // font-weight: bold word-spacing: lem
 #header
   h1 CSE 412 Project-Cell It To Me
@@ -105,17 +88,44 @@ head
       a(href='/home') Home 
       a(href='/watch') Watch List
 #content
-   
-    ul#resultList
-      for row in results
-       li.result=row 
-        form(action="/show", method="get")
-            div(class="input")
-                input#rowvalue(type='text' name='rowvalue' value=row)
+    #info 
+        p NOTE: refresh to see any changes after deletion
+        p Watch List
+        p ----------
 
-            button#read(type="submit") Read more
+       
+        -var list = [];
+        if (results.length)
+            -var index = 0;
+            for row in results
+                if (index == 0)
+                    ul
+                    li Phone Model:
+                else if (index == 1)
+                    li Carrier:
+                else if (index == 2)
+                    li Sold At:
+                 
+                -list.push(row); 
+                li=row
+                
+                if (index == 2)
+                    -index = -1;
+                    form(action="/remove", method="post")
+                        input#rowvalue(type='text' name='remove' value=JSON.stringify(list))
+                        button(type="submit") X
+                    br
+                    br
+                 
+                    -list.pop();
+                    -list.pop();
+                    -list.pop();
+                    
+                -index = index + 1;
 
-            
+        else
+            p Nothing in Watch List
+        
                 
 #footer
   p &copy; Last updated 11/27/2021 

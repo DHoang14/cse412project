@@ -1,6 +1,8 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
 app.set('view engine', 'pug')
+app.use(bodyParser.urlencoded({extended: true}));
 const PORT = process.env.PORT || 3000;
 
 const {Client} = require('pg')
@@ -42,6 +44,73 @@ app.get('/home', (req, res) => {
 	res.render('index.pug', { name: output.rows[0].carriername, id: output.rows[0].carrierid, carrier: carrier, buttonclick: buttonclick()} );
 })
 
+app.get('/watch', (req, res) => {
+	let results = [];
+	query = "SELECT W.model, C.carrierName, E.websiteName FROM WatchList W, Carrier C, StoreEntry E WHERE W.carrierID = C.carrierID AND W.storeID = E.storeID";
+	client.query (query, (err, rows) => {
+		if (err) {
+			console.log("error");
+			return;
+		}	
+
+		if (rows.rows != []) {
+					for (var i = 0; i <rows.rows.length; i++) {
+						results.push(rows.rows[i].model);
+						results.push(rows.rows[i].carriername);
+						results.push(rows.rows[i].websitename);
+					}
+		}
+		res.render('watch.pug', {results: results} );
+	})
+})
+
+app.post('/add', (req, res) => {
+	query = "SELECT carrierID, storeID from Carrier, StoreEntry WHERE carrierName='" + req.body.cservices + "' AND websiteName='" + req.body.stores + "'";
+	client.query (query, (err, rows) => {
+		if (err) {
+			
+			console.log("error");
+			return;
+		}
+		
+		let cid = rows.rows[0].carrierid;
+		let sid = rows.rows[0].storeid;
+
+		query = "INSERT INTO WatchList VALUES('" + req.body.model + "', " + cid + ", " + sid + ")";
+		client.query (query, (err, rows) => {
+			if (err) {
+				
+				console.log("error");
+				return;
+			}
+		})
+	})
+})
+
+app.post('/remove', (req, res) => {
+	let data = JSON.parse(req.body.remove);
+	console.log(data);
+	query = "SELECT carrierID, storeID from Carrier, StoreEntry WHERE carrierName='" + data[1] + "' AND websiteName='" + data[2] + "'";
+	client.query (query, (err, rows) => {
+		if (err) {
+			
+			console.log("error");
+			return;
+		}
+		
+		let cid = rows.rows[0].carrierid;
+		let sid = rows.rows[0].storeid;
+		query = "DELETE FROM WatchList WHERE model='" + data[0] + "' AND carrierID=" + cid + "AND storeID=" + sid;
+		client.query (query, (err, rows) => {
+			if (err) {
+				
+				console.log("error");
+				return;
+			}
+			
+		})
+	})
+})
 //search results
 app.get('/search', function(req, res, next) {
 	var searchstring = req.query.searchBar;
@@ -71,7 +140,7 @@ app.get('/show', function(req, res, next) {
 	let carriers = [];
 	let storeInfo = [];
 	let colors = [];
-	query = "SELECT P.model, P.brand, P.OS, P.batteryLife, P.screenRes, P.dimensions FROM Phone P WHERE P.model LIKE '%" + modelName + "%'";
+	query = "SELECT P.model, P.brand, P.OS, P.batteryLife, P.screenRes, P.dimensions FROM Phone P WHERE P.model='" + modelName + "'";
 	client.query (query, (err, rows) => {
 		if (err) {
 			console.log("error");
@@ -130,6 +199,9 @@ app.get('/show', function(req, res, next) {
 		})
 	})
 })
+
+
+
 //example of passing in a function to index.pug
 const buttonclick =  () =>{
 //	console.log('clicked');
