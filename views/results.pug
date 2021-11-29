@@ -115,8 +115,6 @@ head
     
     ul#resultList
       for row in results
-       if !results.length
-          p No results found.
        li.result=row 
         form(action="/show", method="get")
             div(class="input")
