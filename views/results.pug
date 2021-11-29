@@ -121,7 +121,8 @@ head
                 input#rowvalue(type='text' name='rowvalue' value=row)
 
             button#read(type="submit") Read more
-     
+     if !results.length
+        p No results found.
                 
 #footer
   p &copy; Last updated 11/29/2021 
