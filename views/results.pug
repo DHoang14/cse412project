@@ -114,6 +114,8 @@ head
 #content
     
     ul#resultList
+      if (!results.length)
+        p No results found.
       for row in results
        li.result=row 
         form(action="/show", method="get")
