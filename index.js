@@ -1,8 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const uid = require('uid');
 const app = express();
 app.set('view engine', 'pug')
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(cookieParser());
 const PORT = process.env.PORT || 3000;
 
 //connect to database
@@ -21,6 +24,7 @@ client.connect();
 //home tab
 app.get('/home', (req, res) => {
 	res.render('index.pug');
+	console.log(req.cookies);
 })
 
 //watch list tab
@@ -47,6 +51,8 @@ app.get('/watch', (req, res) => {
 //add to watch list
 app.post('/add', (req, res) => {
 	query = "SELECT carrierID, storeID from Carrier, StoreEntry WHERE carrierName='" + req.body.cservices + "' AND websiteName='" + req.body.stores + "'";
+	console.log(req.body.cservices)
+	console.log(req.body.stores)
 	client.query (query, (err, rows) => {
 		if (err) {
 			
@@ -97,7 +103,7 @@ app.post('/remove', (req, res) => {
 //search results
 app.get('/search', function(req, res, next) {
 	var searchstring = req.query.searchBar;
-	query = "SELECT model from Phone WHERE model LIKE '%" + searchstring + "%'";
+	query = "SELECT model from phones WHERE LOWER(model) LIKE '%" + searchstring + "%'";
 	let results =[];
 	
 	client.query (query, (err, rows) => {
@@ -111,7 +117,7 @@ app.get('/search', function(req, res, next) {
 		}
 		
 		//console.log(rows.rows);
-//		console.log(results);
+		console.log(results);
 		res.render('results.pug', {results: results});
 	})
 	
@@ -249,6 +255,19 @@ app.get('/dataplans', (req, res) => {
 		})
 	})
 })
+app.use(function (req, res, next) {
+	let cookie = req.cookies.cookieID;
+	console.log(req.cookieID)
+	if (cookie === undefined) {
+		let id = uid.uid();
+		res.cookie('cookieID',id);
+		console.log('cookie added');
+	} else {
+		console.log('cookie exists', cookie);
+	}
+	next();
+});
+
 
 //initial home page
 app.use('/', (req, res, next) => {
