@@ -151,6 +151,8 @@ app.get('/show', function(req, res, next) {
 					carriers.push(rows.rows[i].carriername);
 				}
 			}
+
+			let plans = [];
 			query = "SELECT S.price, S.storageSpace, E.websiteName FROM Phone P, Sells S, StoreEntry E WHERE P.model LIKE '%" + modelName + "%' AND S.model = P.model AND S.storeID = E.storeID";
 			client.query (query, (err, rows) => {
 				if (err) {
@@ -163,6 +165,10 @@ app.get('/show', function(req, res, next) {
 						storeInfo.push(rows.rows[i].websitename);
 						storeInfo.push(rows.rows[i].storagespace);
 						storeInfo.push(rows.rows[i].price);
+						if (!plans.includes(rows.rows[i].websitename)) {
+							let plan = [rows.rows[i].websitename];
+							plans.push(plan);
+						}
 					}
 				}
 				query = "SELECT F.color FROM Phone P, Features F WHERE P.model LIKE '%" + modelName + "%' AND P.model = F.model";
@@ -172,12 +178,33 @@ app.get('/show', function(req, res, next) {
 						return;
 					}
 
+					
 					if (rows.rows != []){ 
 						for (var i = 0; i <rows.rows.length; i++) {
 							colors.push(rows.rows[i].color);
 						}
 					}
-					res.render('show.pug', {phoneInfo: phoneInfo, carriers: carriers, storeInfo: storeInfo, colors:colors});
+
+					
+					query = "SELECT S.websiteName, P.paymentPeriod, P.planName, P.duration, P.price FROM StorePlans P, StoreEntry S WHERE S.storeID = P.storeID AND P.planName LIKE '%" + modelName.trim() + "%'"
+					client.query (query, (err, rows) => {
+						if (err) {
+							console.log("error");
+							return;
+						}
+
+						for (var i = 0; i <rows.rows.length; i++) {
+							for (var j = 0; j < plans.length; j++) {
+								if (plans[j][0] == rows.rows[i].websitename) {
+									plans[j].push(rows.rows[i].planname);
+									plans[j].push(rows.rows[i].duration);
+									plans[j].push(rows.rows[i].paymentperiod);
+									plans[j].push(rows.rows[i].price);
+								}
+							}
+						}
+						res.render('show.pug', {phoneInfo: phoneInfo, carriers: carriers, storeInfo: storeInfo, colors:colors, plans: plans});
+					})
 				})
 			})
 		})

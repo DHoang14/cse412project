@@ -127,8 +127,9 @@ head
     br
     br
     p Available Colors:
-    li |
+   
     if (colors.length)
+        li |
         for row in colors
            li=row
            li |
@@ -137,8 +138,9 @@ head
     br 
     br
     p Carriers Available:
-    li |
+    
     if (carriers.length)
+        li |
         for row in carriers
             li=row
             li |
@@ -152,11 +154,13 @@ head
     br
     p Sold At:
     if (storeInfo.length)
+        -var currentStore;
         for row in storeInfo
             if (index == 0)
                 ul
                 li Website Name:
                 -stores.push(row);
+                -currentStore=row;
             else if (index == 1)
                 ul
                 li Storage Space Offered:
@@ -170,11 +174,36 @@ head
                 br
                 br
                 -index = -1;
+
+                -for(var i = 0; i < plans.length; i++)
+                    if(plans[i][0] == currentStore && plans[i].length > 1)
+                        p Related Store Plans:
+                        -let planElement = 0;
+
+                        table(style='width:90%', border='0')
+                            tr
+                                th Store Plan
+                                th Duration
+                                th Payment Period
+                                th Price
+                            -for (var j = 1; j < plans[i].length; j++)
+                                 if (planElement == 4)
+                                    -planElement = 0;
+                                 if (planElement == 0)
+                                    tr
+                                 td=plans[i][j]
+                            
+                                 -planElement = planElement+1;
+
+                               
             -index = index + 1;
     else
         p No Recorded Stores
         -stores.push('None');
     
+
+
+
     br
     form(action='/add' method="post")
         p Add to Watch List:
@@ -194,6 +223,8 @@ head
         br
         input(type='submit', value='Submit')
     br  
+
+   
 
 
 #footer
