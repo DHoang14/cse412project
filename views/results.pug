@@ -115,14 +115,14 @@ head
     
     ul#resultList
       for row in results
+       if !results.length
+          p No results found.
        li.result=row 
         form(action="/show", method="get")
             div(class="input")
                 input#rowvalue(type='text' name='rowvalue' value=row)
 
             button#read(type="submit") Read more
-     if !results.length
-        p No results found.
                 
 #footer
   p &copy; Last updated 11/29/2021 
