@@ -103,7 +103,7 @@ app.post('/remove', (req, res) => {
 //search results
 app.get('/search', function(req, res, next) {
 	var searchstring = req.query.searchBar;
-	query = "SELECT model from phones WHERE LOWER(model) LIKE '%" + searchstring + "%'";
+	query = "SELECT model from Phone WHERE LOWER(model) LIKE '%" + searchstring + "%'";
 	let results =[];
 	
 	client.query (query, (err, rows) => {
