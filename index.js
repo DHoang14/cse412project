@@ -20,11 +20,11 @@ const client = new Client({
 
 client.connect();
 
+var cookie;
 
 //home tab
 app.get('/home', (req, res) => {
 	res.render('index.pug');
-	console.log(req.cookies);
 })
 
 //watch list tab
@@ -103,9 +103,7 @@ app.post('/remove', (req, res) => {
 //search results
 app.get('/search', function(req, res, next) {
 	var searchstring = req.query.searchBar.toLowerCase();
-	console.log(searchstring);
 	query = "SELECT model from Phone WHERE LOWER(model) LIKE '%" + searchstring + "%'";
-	console.log(query);
 	let results =[];
 	
 	client.query (query, (err, rows) => {
@@ -119,7 +117,7 @@ app.get('/search', function(req, res, next) {
 		}
 		
 		//console.log(rows.rows);
-		console.log(results);
+		//console.log(results);
 		res.render('results.pug', {results: results});
 	})
 	
@@ -260,14 +258,13 @@ app.get('/dataplans', (req, res) => {
 	})
 })
 app.use(function (req, res, next) {
-	let cookie = req.cookies.cookieID;
-	console.log(req.cookieID)
+	cookie = req.cookies.cookieID;
 	if (cookie === undefined) {
 		let id = uid.uid();
 		res.cookie('cookieID',id);
 		console.log('cookie added');
 	} else {
-		console.log('cookie exists', cookie);
+		//console.log('cookie exists', cookie);
 	}
 	next();
 });
@@ -281,5 +278,5 @@ app.use('/', (req, res, next) => {
 
 
 app.listen(PORT, () => {
-	console.log('app listening on PORT 3000');
+	console.log('app listening on PORT 3000 or 5000');
 });

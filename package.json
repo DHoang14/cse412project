@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "start": "node index.js"
-  },
+    "scripts": {
+     "start": "pm2-runtime start ecosystem.config.js --env production"
+    },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -16,6 +16,7 @@
     "cookie-parser": "^1.4.6",
     "express": "^4.17.1",
     "pg": "^8.7.1",
+    "pm2": "^5.1.2",
     "pug": "^3.0.2",
     "uid": "^2.0.0"
   }
