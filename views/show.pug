@@ -109,8 +109,6 @@ head
     -var index = 0;
     for row in phoneInfo
       ul
-      -console.log(row);
-      -console.log(index);
       if (index == 0)
         -let source = row.trim();
         img(src=source)
@@ -231,7 +229,8 @@ head
                 option=store
         br
         br
-        input(type='submit', value='Submit')
+        input(type='submit' value='Submit')
+       
     br  
 
    

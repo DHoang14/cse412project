@@ -48,6 +48,7 @@ app.get('/watch', (req, res) => {
 	})
 })
 
+
 //add to watch list
 app.post('/add', (req, res) => {
 	query = "SELECT carrierID, storeID from Carrier, StoreEntry WHERE carrierName='" + req.body.cservices + "' AND websiteName='" + req.body.stores + "'";
@@ -70,6 +71,7 @@ app.post('/add', (req, res) => {
 				console.log("error");
 				return;
 			}
+
 		})
 	})
 })
@@ -77,7 +79,6 @@ app.post('/add', (req, res) => {
 //remove from watch list
 app.post('/remove', (req, res) => {
 	let data = JSON.parse(req.body.remove);
-	console.log(data);
 	query = "SELECT carrierID, storeID from Carrier, StoreEntry WHERE carrierName='" + data[1] + "' AND websiteName='" + data[2] + "'";
 	client.query (query, (err, rows) => {
 		if (err) {
