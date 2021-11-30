@@ -109,20 +109,30 @@ head
     -var index = 0;
     for row in phoneInfo
       ul
-      if (index == 0) 
+      -console.log(row);
+      -console.log(index);
+      if (index == 0)
+        -let source = row.trim();
+        img(src=source)
+      else if (index == 1)
         li Model:
         -model = row;
-      else if (index == 1)
-        li Brand:
       else if (index == 2)
-        li OS:
+        li Brand:
       else if (index == 3)
-        li Battery Life:
+        li OS:
       else if (index == 4)
-        li Screen Resolution:
+        li Battery:
       else if (index == 5)
+        li Screen Resolution:
+      else if (index == 6)
         li Dimensions:
-      li=row
+      else if (index == 7)
+        li Audio Jack:
+      if (index != 0)
+        li=row
+      
+        
       -index = index + 1;
     br
     br

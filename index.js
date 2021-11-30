@@ -130,7 +130,7 @@ app.get('/show', function(req, res, next) {
 	let carriers = [];
 	let storeInfo = [];
 	let colors = [];
-	query = "SELECT P.model, P.brand, P.OS, P.batteryLife, P.screenRes, P.dimensions FROM Phone P WHERE P.model='" + modelName + "'";
+	query = "SELECT P.model, P.brand, P.OS, P.battery, P.screenRes, P.dimensions, P.audiojack, P.imgurl FROM Phone P WHERE P.model='" + modelName + "'";
 	client.query (query, (err, rows) => {
 		if (err) {
 			console.log("error");
@@ -138,13 +138,15 @@ app.get('/show', function(req, res, next) {
 		}	
 
 		if (rows.rows != []) {
+			phoneInfo.push(rows.rows[0].imgurl);
 			phoneInfo.push(rows.rows[0].model);
 			phoneInfo.push(rows.rows[0].brand);
 			phoneInfo.push(rows.rows[0].os);
-			phoneInfo.push(rows.rows[0].batterylife);
+			phoneInfo.push(rows.rows[0].battery);
 			phoneInfo.push(rows.rows[0].screenres);
 			phoneInfo.push(rows.rows[0].dimensions);
-			
+			phoneInfo.push(rows.rows[0].audiojack);
+
 		}
 		query = "SELECT C.carrierName FROM Phone P, Carrier C, CelluarService S WHERE P.model LIKE '%" + modelName + "%' AND P.model = S.model AND S.carrierID = C.carrierID";
 		client.query (query, (err, rows) => {
