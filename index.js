@@ -21,6 +21,7 @@ const client = new Client({
 client.connect();
 
 var cookie;
+var firstTime = 0;
 
 //home tab
 app.get('/home', (req, res) => {
@@ -30,13 +31,13 @@ app.get('/home', (req, res) => {
 //watch list tab
 app.get('/watch', (req, res) => {
 	let results = [];
-	query = "SELECT W.model, C.carrierName, E.websiteName FROM WatchList W, Carrier C, StoreEntry E WHERE W.carrierID = C.carrierID AND W.storeID = E.storeID";
+	query = "SELECT W.model, C.carrierName, E.websiteName FROM WatchList W, Carrier C, StoreEntry E WHERE W.carrierID = C.carrierID AND W.storeID = E.storeID AND W.userid='" + cookie + "'";
 	client.query (query, (err, rows) => {
 		if (err) {
 			console.log("error");
 			return;
 		}	
-
+		
 		if (rows.rows != []) {
 					for (var i = 0; i <rows.rows.length; i++) {
 						results.push(rows.rows[i].model);
@@ -52,8 +53,6 @@ app.get('/watch', (req, res) => {
 //add to watch list
 app.post('/add', (req, res) => {
 	query = "SELECT carrierID, storeID from Carrier, StoreEntry WHERE carrierName='" + req.body.cservices + "' AND websiteName='" + req.body.stores + "'";
-	console.log(req.body.cservices)
-	console.log(req.body.stores)
 	client.query (query, (err, rows) => {
 		if (err) {
 			
@@ -64,7 +63,8 @@ app.post('/add', (req, res) => {
 		let cid = rows.rows[0].carrierid;
 		let sid = rows.rows[0].storeid;
 
-		query = "INSERT INTO WatchList VALUES('" + req.body.model + "', " + cid + ", " + sid + ")";
+		query = "INSERT INTO WatchList VALUES('" + req.body.model + "', " + cid + ", " + sid + ", '" + cookie + "')";
+
 		client.query (query, (err, rows) => {
 			if (err) {
 				
@@ -89,7 +89,7 @@ app.post('/remove', (req, res) => {
 		
 		let cid = rows.rows[0].carrierid;
 		let sid = rows.rows[0].storeid;
-		query = "DELETE FROM WatchList WHERE model='" + data[0] + "' AND carrierID=" + cid + "AND storeID=" + sid;
+		query = "DELETE FROM WatchList WHERE model='" + data[0] + "' AND carrierID=" + cid + " AND storeID=" + sid + " AND userid='" + cookie + "'";
 		client.query (query, (err, rows) => {
 			if (err) {
 				
@@ -266,8 +266,20 @@ app.use(function (req, res, next) {
 		console.log('cookie added');
 	} else {
 		//console.log('cookie exists', cookie);
+		if (firstTime == 0) {
+			query = "INSERT INTO WatchList2 VALUES('" + cookie + "')";
+			client.query (query, (err, rows) => {
+				if (err) {
+					console.log("user already in database");
+					return;	
+				}
+				console.log("user placed into database");
+			})
+			firstTime = 1;
+		}
 	}
 	next();
+
 });
 
 
