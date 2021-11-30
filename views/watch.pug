@@ -31,7 +31,15 @@ head
     display: inline;
     padding: 0.5em;
     }
-    #nav, #footer {
+    #nav{
+    border-style: none;
+    justify-content: center;
+    text-align: center;
+    background-color: #e6e6e6;
+    padding: 0.5em 0;
+    padding-left: 8.5em;
+    }
+    #footer {
     border-style: none;
     justify-content: center;
     text-align: center;
@@ -56,11 +64,22 @@ head
     font-family: "Courier New", Courier, monospace;
     font-size: 12px;
     }
+   a{
+    color: gray;
+    text-decoration: none;
+    padding-left: 15px;
+    }
     a:hover{
-    color: purple;
+    color: #6897bb !important;
+    text-decoration: underline;
+    }
+    a:visited{
+    color: black;
+    text-decoration: none;
     }
     #search {
     float: right;
+    padding-right: 10px;
     }
     
 
@@ -86,7 +105,7 @@ head
     //page specific css
   // font-weight: bold word-spacing: lem
 #header
-  img(src='https://raw.githubusercontent.com/DHoang14/cse412project/main/views/CellItToMe.png' align='middle' style='width:1300px; height:200px;')
+  img(src='https://raw.githubusercontent.com/DHoang14/cse412project/main/views/CellItToMe.png' align='middle' style='width:1300px; height:200px; padding-left: 40px;')
   h1 Need a phone? Compare phone prices and plans amongst different stores, before you buy.
 
 #nav
