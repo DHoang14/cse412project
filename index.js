@@ -59,18 +59,9 @@ app.post('/add', (req, res) => {
 			console.log("error");
 			return;
 		}
-
-		
-		let phoneInfo = JSON.parse(req.body.phone);
-		let colors = JSON.parse(req.body.colors);
-		let carriers = JSON.parse(req.body.carriers);
-		let storeInfo = JSON.parse(req.body.store);
-		let plans = JSON.parse(req.body.plan);
 		
 		let cid = rows.rows[0].carrierid;
 		let sid = rows.rows[0].storeid;
-
-		let success = 'Successfully Added to Watch List';
 
 		query = "INSERT INTO WatchList VALUES('" + req.body.model + "', " + cid + ", " + sid + ", '" + cookie + "')";
 
@@ -80,7 +71,6 @@ app.post('/add', (req, res) => {
 				console.log("error");
 				return;
 			}
-			res.render('show.pug', {phoneInfo: phoneInfo, carriers: carriers, storeInfo: storeInfo, colors:colors, plans: plans, success:success});
 
 		})
 	})
