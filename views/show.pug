@@ -148,6 +148,8 @@ head
         li Audio Jack:
       if (index != 0)
         li=row
+        if (row == null)
+            li N/A
       
         
       -index = index + 1;
@@ -236,6 +238,12 @@ head
         p Add to Watch List:
         div(class="input")
                 input#rowvalue(type='text' name='model' value=model)
+                input#rowvalue(type='text' name='phone' value=JSON.stringify(phoneInfo))
+                input#rowvalue(type='text' name='colors' value=JSON.stringify(colors))
+                input#rowvalue(type='text' name='carriers' value=JSON.stringify(carriers))
+                input#rowvalue(type='text' name='store' value=JSON.stringify(storeInfo))
+                input#rowvalue(type='text' name='plan' value=JSON.stringify(plans))
+
         label Carrier:
         select(name='cservices')
             each service in cservices
@@ -250,6 +258,7 @@ head
         br
         input(type='submit' value='Submit')
        
+        p #{success}
     br  
 
    
