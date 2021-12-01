@@ -195,7 +195,7 @@ app.get('/show', function(req, res, next) {
 					}
 
 					
-					query = "SELECT S.websiteName, P.paymentPeriod, P.planName, P.duration, P.price FROM StorePlans P, StoreEntry S WHERE S.storeID = P.storeID AND P.planName LIKE '%" + modelName.trim() + "%'"
+					query = "SELECT S.websiteName, P.paymentPeriod, P.planName, P.duration, P.price FROM StorePlans P, StoreEntry S WHERE S.storeID = P.storeID";
 					client.query (query, (err, rows) => {
 						if (err) {
 							console.log("error");
